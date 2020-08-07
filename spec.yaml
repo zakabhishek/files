@@ -1,0 +1,1591 @@
+openapi: 3.0.0
+servers:
+  - url: '{server}/api/v2/assignment1/_table'
+    description: DreamFactory Demo
+    variables:
+      server:
+        default: https://abhii.apps.dreamfactory.com
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-DreamFactory-API-Key
+    SessionTokenQuery:
+      type: apiKey
+      in: query
+      name: session_token
+    SessionTokenHeader:
+      type: apiKey
+      in: header
+      name: X-DreamFactory-Session-Token
+  responses:
+    Success:
+      description: Success Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Success'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Success'
+    Error:
+      description: Error Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ResourceList:
+      description: Resource List Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceList'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ResourceList'
+    MySqlDbResponse:
+      description: Resource List
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MySqlDb'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/MySqlDb'
+    MySqlDbsResponse:
+      description: Resource List
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MySqlDbs'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/MySqlDbs'
+    TableSchemas:
+      description: TableSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TableSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/TableSchemas'
+    TableSchema:
+      description: TableSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TableSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/TableSchema'
+    FieldSchemas:
+      description: FieldSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FieldSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/FieldSchemas'
+    FieldSchema:
+      description: FieldSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FieldSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/FieldSchema'
+    RelationshipSchemas:
+      description: RelationshipSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchemas'
+    RelationshipSchema:
+      description: RelationshipSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchema'
+    RecordsResponse:
+      description: Records Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RecordsResponse'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RecordsResponse'
+    RecordResponse:
+      description: Record Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RecordResponse'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RecordResponse'
+    StoredProcedureResponse:
+      description: Stored Procedure Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredProcedureResponse'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredProcedureResponse'
+    StoredProcedureSchemas:
+      description: Stored Procedure Schemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredRoutineSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredRoutineSchemas'
+    StoredFunctionResponse:
+      description: Stored Function Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredFunctionResponse'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredFunctionResponse'
+    StoredFunctionSchemas:
+      description: Stored Function Schemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredRoutineSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredRoutineSchemas'
+  schemas:
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 'True when API call was successful, false or error otherwise.'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code.
+        message:
+          type: string
+          description: String description of the error.
+    ResourceList:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: Array of accessible resources available to this service.
+          items:
+            type: string
+    MySqlDb:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Identifier of the resource.
+    MySqlDbs:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: Array of resources available to this service.
+          items:
+            $ref: '#/components/schemas/MySqlDb'
+    TableSchemas:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: An array of table definitions.
+          items:
+            $ref: '#/components/schemas/TableSchema'
+    TableSchema:
+      properties:
+        name:
+          type: string
+          description: Identifier/Name for the table.
+        label:
+          type: string
+          description: Displayable singular name for the table.
+        description:
+          type: string
+          description: Description of the table.
+        plural:
+          type: string
+          description: Displayable plural name for the table.
+        primary_key:
+          type: array
+          description: 'Field(s), if any, that represent the primary key of each record.'
+          items:
+            type: string
+        name_field:
+          type: string
+          description: 'Field(s), if any, that represent the name of each record.'
+    FieldSchemas:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: An array of field definitions.
+          items:
+            $ref: '#/components/schemas/FieldSchema'
+    FieldSchema:
+      properties:
+        name:
+          type: string
+          description: The API name of the field.
+        label:
+          type: string
+          description: The displayable label for the field.
+        type:
+          type: string
+          description: The DreamFactory abstract data type for this field.
+        db_type:
+          type: string
+          description: The native database type used for this field.
+        length:
+          type: integer
+          format: int32
+          description: >-
+            The maximum length allowed (in characters for string, displayed for
+            numbers).
+        precision:
+          type: integer
+          format: int32
+          description: Total number of places for numbers.
+        scale:
+          type: integer
+          format: int32
+          description: Number of decimal places allowed for numbers.
+        default_value:
+          type: string
+          description: Default value for this field.
+        required:
+          type: boolean
+          description: Is a value required for record creation.
+        allow_null:
+          type: boolean
+          description: Is null allowed as a value.
+        fixed_length:
+          type: boolean
+          description: Is the length fixed (not variable).
+        supports_multibyte:
+          type: boolean
+          description: Does the data type support multibyte characters.
+        auto_increment:
+          type: boolean
+          description: Does the integer field value increment upon new record creation.
+        is_primary_key:
+          type: boolean
+          description: Is this field used as/part of the primary key.
+        is_foreign_key:
+          type: boolean
+          description: Is this field used as a foreign key.
+        ref_table:
+          type: string
+          description: 'For foreign keys, the referenced table name.'
+        ref_field:
+          type: string
+          description: 'For foreign keys, the referenced table field name.'
+        validation:
+          type: array
+          description: validations to be performed on this field.
+          items:
+            type: string
+        value:
+          type: array
+          description: Selectable string values for client menus and picklist validation.
+          items:
+            type: string
+    RelationshipSchemas:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: An array of relationship definitions.
+          items:
+            $ref: '#/components/schemas/RelationshipSchema'
+    RelationshipSchema:
+      properties:
+        name:
+          type: string
+          description: Name of the relationship.
+        alias:
+          type: string
+          description: Alias to use in the API to override the name the relationship.
+        label:
+          type: string
+          description: Label for the relationship.
+        description:
+          type: string
+          description: Description of the relationship.
+        type:
+          type: string
+          description: 'Relationship type - belongs_to, has_many, many_many.'
+        field:
+          type: string
+          description: The current table field that is used in the relationship.
+        ref_table:
+          type: string
+          description: The table name that is referenced by the relationship.
+        ref_field:
+          type: string
+          description: The field name that is referenced by the relationship.
+        junction_table:
+          type: string
+          description: The intermediate junction table used for many_many relationships.
+        junction_field:
+          type: string
+          description: >-
+            The intermediate junction table field used for many_many
+            relationships.
+        junction_ref_field:
+          type: string
+          description: >-
+            The intermediate joining table referencing field used for many_many
+            relationships.
+        always_fetch:
+          type: boolean
+          description: Always fetch this relationship when querying the parent table.
+    StoredRoutineSchemas:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: An array of routine definitions.
+          items:
+            $ref: '#/components/schemas/StoredRoutineSchema'
+    StoredRoutineSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Identifier/Name for the routine.
+        label:
+          type: string
+          description: Displayable name for the routine.
+        description:
+          type: string
+          description: Description for the routine.
+        return_type:
+          type: string
+          description: Displayable plural name for the routine.
+        return_schema:
+          type: string
+          description: 'Field(s), if any, that represent the primary key of each record.'
+        params:
+          type: array
+          description: An array of available fields in each record.
+          items:
+            $ref: '#/components/schemas/StoredRoutineParameterSchema'
+    StoredRoutineParameterSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Identifier/Name for the parameter.
+        position:
+          type: string
+          description: Displayable singular name for the parameter.
+        param_type:
+          type: string
+          description: Displayable plural name for the parameter.
+        type:
+          type: string
+          description: The DreamFactory abstract data type for this parameter.
+        db_type:
+          type: string
+          description: The native database type used for this parameter.
+        length:
+          type: integer
+          format: int32
+          description: >-
+            The maximum length allowed (in characters for string, displayed for
+            numbers).
+        precision:
+          type: integer
+          format: int32
+          description: Total number of places for numbers.
+        scale:
+          type: integer
+          format: int32
+          description: Number of decimal places allowed for numbers.
+        default:
+          type: string
+          description: Default value for this parameter.
+    RecordRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Sample identifier of this record.
+    RecordsRequest:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: Array of records.
+          items:
+            $ref: '#/components/schemas/RecordRequest'
+        ids:
+          type: array
+          description: Array of record identifiers.
+          items:
+            type: integer
+            format: int32
+        filter:
+          type: string
+          description: >-
+            SQL or native filter to determine records where modifications will
+            be applied.
+        params:
+          type: array
+          description: >-
+            Array of name-value pairs, used for parameter replacement on
+            filters.
+          items:
+            type: string
+    RecordResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Sample identifier of this record.
+    RecordsResponse:
+      type: object
+      properties:
+        resource:
+          type: array
+          description: Array of system user records.
+          items:
+            $ref: '#/components/schemas/RecordResponse'
+        meta:
+          $ref: '#/components/schemas/Metadata'
+    Metadata:
+      type: object
+      properties:
+        schema:
+          type: array
+          description: Array of table schema.
+          items:
+            type: string
+        count:
+          type: integer
+          format: int32
+          description: Record count returned for GET requests.
+    StoredProcedureResponse:
+      type: object
+      properties:
+        _wrapper_if_supplied_:
+          type: array
+          description: Array of returned data.
+          items:
+            type: string
+        _out_param_name_:
+          type: string
+          description: Name and value of any given output parameter.
+    StoredProcedureRequest:
+      type: object
+      properties:
+        params:
+          type: array
+          description: Optional array of input and output parameters.
+          items:
+            $ref: '#/components/schemas/StoredProcedureParam'
+        schema:
+          $ref: '#/components/schemas/StoredProcedureResultSchema'
+        wrapper:
+          type: string
+          description: >-
+            Add this wrapper around the expected data set before returning, same
+            as URL parameter.
+        returns:
+          type: string
+          description: >-
+            If returning a single value, use this to set the type of that value,
+            same as URL parameter.
+    StoredProcedureParam:
+      type: object
+      properties:
+        name:
+          type: string
+          description: >-
+            Name of the parameter, required for OUT and INOUT types, must be the
+            same as the stored procedure's parameter name.
+        value:
+          type: string
+          description: >-
+            Value of the parameter, used for the IN and INOUT types, defaults to
+            NULL.
+    StoredProcedureResultSchema:
+      type: object
+      properties:
+        _field_name_:
+          type: string
+          description: >-
+            The name of the returned element where the value is set to the
+            requested type for the returned value, i.e. integer, boolean,
+            string, etc.
+    StoredFunctionResponse:
+      type: object
+      properties:
+        _out_param_name_:
+          type: string
+          description: Name and value of any given output parameter.
+    StoredFunctionRequest:
+      type: object
+      properties:
+        params:
+          type: array
+          description: Optional array of input and output parameters.
+          items:
+            $ref: '#/components/schemas/StoredFunctionParam'
+        schema:
+          $ref: '#/components/schemas/StoredFunctionResultSchema'
+        returns:
+          type: string
+          description: >-
+            If returning a single value, use this to set the type of that value,
+            same as URL parameter.
+    StoredFunctionParam:
+      type: object
+      properties:
+        name:
+          type: string
+          description: >-
+            Name of the parameter, required for OUT and INOUT types, must be the
+            same as the stored procedure's parameter name.
+        value:
+          type: string
+          description: >-
+            Value of the parameter, used for the IN and INOUT types, defaults to
+            NULL.
+    StoredFunctionResultSchema:
+      type: object
+      properties:
+        _field_name_:
+          type: string
+          description: >-
+            The name of the returned element where the value is set to the
+            requested type for the returned value, i.e. integer, boolean,
+            string, etc.
+  requestBodies:
+    TableSchemas:
+      description: TableSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TableSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/TableSchemas'
+    TableSchema:
+      description: TableSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TableSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/TableSchema'
+    FieldSchemas:
+      description: FieldSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FieldSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/FieldSchemas'
+    FieldSchema:
+      description: FieldSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FieldSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/FieldSchema'
+    RelationshipSchemas:
+      description: RelationshipSchemas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchemas'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchemas'
+    RelationshipSchema:
+      description: RelationshipSchema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchema'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RelationshipSchema'
+    RecordsRequest:
+      description: Records Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RecordsRequest'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RecordsRequest'
+    RecordRequest:
+      description: Record Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RecordRequest'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RecordRequest'
+    StoredProcedureRequest:
+      description: Stored Procedure Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredProcedureRequest'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredProcedureRequest'
+    StoredFunctionRequest:
+      description: Stored Function Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoredFunctionRequest'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StoredFunctionRequest'
+security:
+  - BasicAuth: []
+  - BearerAuth: []
+  - ApiKeyQuery: []
+  - ApiKeyHeader: []
+  - SessionTokenQuery: []
+  - SessionTokenHeader: []
+info:
+  title: mysqldemo
+  description: Self Learning
+  version: '2.0'
+paths:
+  /:
+    get:
+      summary: Get resources for this service.
+      description: Return an array of the resources available.
+      operationId: getAssignment1Resources
+      parameters:
+        - description: Return only a list of the resource identifiers.
+          name: as_list
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: Returns a list of the resources for role access designation.
+          name: as_access_list
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: Include the access permissions for the returned resource.
+          name: include_access
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Refresh any cached resource list on the server.
+          name: refresh
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/MySqlDbsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+  '/employees':
+    get:
+      summary: Retrieve one or more records.
+      description: >-
+        Set the **filter** parameter to a SQL WHERE clause (optional native
+        filter accepted in some scenarios) to limit records returned or leave it
+        blank to return all records up to the maximum limit. Set the **limit**
+        parameter with or without a filter to return a specific amount of
+        records. Use the **offset** parameter along with the **limit** parameter
+        to page through sets of records. Set the **order** parameter to SQL
+        ORDER_BY clause containing field and optional direction (field_name
+        [ASC|DESC]) to order the returned records. Alternatively, to send the
+        **filter** with or without **params** as posted data, use the
+        getRecordsByPost() POST request and post a filter with or without
+        params.Pass the identifying field values as a comma-separated list in
+        the **ids** parameter. Use the **id_field** and **id_type** parameters
+        to override or specify detail for identifying fields where applicable.
+        Alternatively, to send the **ids** as posted data, use the
+        getRecordsByPost() POST request. Use the **fields** parameter to limit
+        properties returned for each record. By default, all fields are returned
+        for all records.
+      operationId: getAssignment1TableRecords
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: SQL-like filter to limit the records to retrieve.
+          name: filter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+        - description: Set to limit the filter results.
+          name: limit
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - description: Set to offset the filter results to a particular record count.
+          name: offset
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - description: SQL-like order containing field and direction for filter results.
+          name: order
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+        - description: >-
+            Comma-delimited list of the fields used for grouping of filter
+            results.
+          name: group
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+        - description: Return only the total number of filter results.
+          name: count_only
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: Include the total number of filter results in returned metadata.
+          name: include_count
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: Include the schema of the table queried in returned metadata.
+          name: include_schema
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: Comma-delimited list of the identifiers of the records to retrieve.
+          name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            In batch scenarios where supported, continue processing even after
+            one action fails. Default behavior is to halt and return results up
+            to the first point of failure.
+          name: continue
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            In batch scenarios where supported, rollback all actions if one
+            action fails. Default behavior is to halt and return results up to
+            the first point of failure.
+          name: rollback
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            Download the results of the request as a file. **This is here for
+            documentation purpose only. File will not download using API Docs.**
+          name: file
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+    post:
+      summary: Create one or more records.
+      description: >-
+        Posted data should be an array of records wrapped in a **record**
+        element. By default, only the id property of the record is returned on
+        success. Use **fields** parameter to return more info.
+      operationId: createAssignment1TableRecords
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            In batch scenarios where supported, continue processing even after
+            one action fails. Default behavior is to halt and return results up
+            to the first point of failure.
+          name: continue
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            In batch scenarios where supported, rollback all actions if one
+            action fails. Default behavior is to halt and return results up to
+            the first point of failure.
+          name: rollback
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - name: X-HTTP-METHOD
+          description: >-
+            Override request using POST to tunnel other http request, such as
+            DELETE or GET passing a payload.
+          schema:
+            type: string
+            enum:
+              - GET
+              - PUT
+              - PATCH
+              - DELETE
+          in: header
+      requestBody:
+        $ref: '#/components/requestBodies/RecordsRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Update (replace) one or more records.
+      description: >-
+        Post data should be an array of records wrapped in a **resource** tag.
+        If ids or filter is used, posted body should be a single record with
+        name-value pairs to update, wrapped in a **resource** tag. Ids can be
+        included via URL parameter or included in the posted body. Filter can be
+        included via URL parameter or included in the posted body. By default,
+        only the id property of the record is returned on success. Use
+        **fields** parameter to return more info.
+      operationId: replaceAssignment1TableRecords
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of the identifiers of the records to retrieve.
+          name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            In batch scenarios where supported, continue processing even after
+            one action fails. Default behavior is to halt and return results up
+            to the first point of failure.
+          name: continue
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            In batch scenarios where supported, rollback all actions if one
+            action fails. Default behavior is to halt and return results up to
+            the first point of failure.
+          name: rollback
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: SQL-like filter to limit the records to retrieve.
+          name: filter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/RecordsRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+    patch:
+      summary: Update (patch) one or more records.
+      description: >-
+        Post data should be an array of records containing at least the
+        identifying fields for each record. Posted body should be a single
+        record with name-value pairs to update wrapped in a **record** tag. Ids
+        can be included via URL parameter or included in the posted body. Filter
+        can be included via URL parameter or included in the posted body. By
+        default, only the id property of the record is returned on success. Use
+        **fields** parameter to return more info.
+      operationId: updateAssignment1TableRecords
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of the identifiers of the records to retrieve.
+          name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            In batch scenarios where supported, continue processing even after
+            one action fails. Default behavior is to halt and return results up
+            to the first point of failure.
+          name: continue
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            In batch scenarios where supported, rollback all actions if one
+            action fails. Default behavior is to halt and return results up to
+            the first point of failure.
+          name: rollback
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: SQL-like filter to limit the records to retrieve.
+          name: filter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/RecordsRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+    delete:
+      summary: Delete one or more records.
+      description: >-
+        Set the **ids** parameter to a list of record identifying (primary key)
+        values to delete specific records. Alternatively, to delete records by a
+        large list of ids, pass the ids in the **body**. By default, only the id
+        property of the record is returned on success, use **fields** to return
+        more info. Set the **filter** parameter to a SQL WHERE clause to delete
+        specific records, otherwise set **force** to true to clear the table.
+        Alternatively, to delete by a complicated filter or to use parameter
+        replacement, pass the filter with or without params as the **body**. By
+        default, only the id property of the record is returned on success, use
+        **fields** to return more info. Set the **body** to an array of records,
+        minimally including the identifying fields, to delete specific records.
+        By default, only the id property of the record is returned on success,
+        use **fields** to return more info.
+      operationId: deleteAssignment1TableRecords
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of the identifiers of the records to retrieve.
+          name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            In batch scenarios where supported, continue processing even after
+            one action fails. Default behavior is to halt and return results up
+            to the first point of failure.
+          name: continue
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: >-
+            In batch scenarios where supported, rollback all actions if one
+            action fails. Default behavior is to halt and return results up to
+            the first point of failure.
+          name: rollback
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+        - description: SQL-like filter to limit the records to retrieve.
+          name: filter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: string
+        - description: 'Set to true to delete all resources in the given table, folder, etc.'
+          name: force
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordsResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+  '/employees/10':
+    get:
+      summary: Retrieve one record by identifier.
+      description: >-
+        Use the **fields** parameter to limit properties that are returned. By
+        default, all fields are returned.
+      operationId: getAssignment1TableRecord
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+    put:
+      summary: Replace the content of one record by identifier.
+      description: >-
+        Post data should be an array of fields for a single record. Use the
+        **fields** parameter to return more properties. By default, the id is
+        returned.
+      operationId: replaceAssignment1TableRecord
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        $ref: '#/components/requestBodies/RecordRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+    patch:
+      summary: Update (patch) one record by identifier.
+      description: >-
+        Post data should be an array of fields for a single record. Use the
+        **fields** parameter to return more properties. By default, the id is
+        returned.
+      operationId: updateAssignment1TableRecord
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        $ref: '#/components/requestBodies/RecordRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordResponse'
+        default:
+          $ref: '#/components/responses/Error'
+
+    delete:
+      summary: Delete one record by identifier.
+      description: >-
+        Use the **fields** parameter to return more deleted properties. By
+        default, the id is returned.
+      operationId: deleteAssignment1TableRecord
+      parameters:
+        - description: >-
+            Comma-delimited list of properties to be returned for each resource,
+            "*" returns all properties. If as_list, use this to override the
+            default identifier.
+          name: fields
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Comma-delimited list of related names to retrieve for each resource.
+          name: related
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the fields used as identifiers, used to
+            override defaults or provide identifiers when none are provisioned.
+          name: id_field
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: >-
+            Comma-delimited list of the field types used as identifiers for the
+            table, used to override defaults or provide identifiers when none
+            are provisioned.
+          name: id_type
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/RecordResponse'
+        default:
+          $ref: '#/components/responses/Error'
